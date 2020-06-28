@@ -10,10 +10,11 @@ const sendEvent = (ttl: number = FIVE_MIN): void => {
   eventQueue.push(currentTime);
   const timer = setTimeout(() => {
     eventQueue.shift();
-    if(timers.length) {
+    if (timers.length) {
       clearTimeout(timers.shift() as NodeJS.Timeout);
     }
   }, ttl);
+
   timers.push(timer);
 };
 
@@ -26,12 +27,10 @@ const getEventsCountAtTime = (seconds: number): number => {
 };
 
 const clearQueue = () => {
-  eventQueue.splice(0, eventQueue.length)
-  while(timers.length) {
+  eventQueue.splice(0, eventQueue.length);
+  while (timers.length) {
     clearTimeout(timers.shift() as NodeJS.Timeout);
   }
 };
 
-
 export { clearQueue, getEventsCountAtTime, sendEvent };
-
