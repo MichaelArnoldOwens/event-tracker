@@ -1,0 +1,28 @@
+{
+  "name": "event-counter",
+  "version": "1.0.0",
+  "description": "A simple event tracking library",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "dev": "npm run build && npm run start",
+    "start": "node ./build/index.js",
+    "test": "jest"
+  },
+  "author": "Michael Owens",
+  "license": "MIT",
+  "dependencies": {
+    "lodash": "^4.17.15"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.10.3",
+    "@babel/preset-env": "^7.10.3",
+    "@babel/preset-typescript": "^7.10.1",
+    "@types/jest": "^26.0.3",
+    "@types/lodash": "^4.14.157",
+    "babel-jest": "^26.1.0",
+    "jest": "^26.1.0",
+    "ts-jest": "^26.1.1",
+    "typescript": "^3.9.5"
+  }
+}
