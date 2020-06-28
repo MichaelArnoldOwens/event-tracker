@@ -2,24 +2,36 @@ import _ from 'lodash';
 
 const FIVE_MIN = 3e5;
 const eventQueue: Array<number> = [];
+const timers: Array<NodeJS.Timeout> = [];
 
 const sendEvent = (ttl: number = FIVE_MIN): void => {
-  const currentTime = Date.now() / 1000;
+  const currentTime = Math.floor(Date.now() / 1000);
 
   eventQueue.push(currentTime);
-  setTimeout(() => {
+  const timer = setTimeout(() => {
     eventQueue.shift();
+    if(timers.length) {
+      clearTimeout(timers.shift() as NodeJS.Timeout);
+    }
   }, ttl);
-  getEventsCountAtTime(10)
+  timers.push(timer);
 };
 
 const getEventsCountAtTime = (seconds: number): number => {
   const currentTime = Math.floor(Date.now() / 1000);
   const startTime = currentTime - seconds;
   const startIndex = _.sortedIndex(eventQueue, startTime);
-  const endIndex = _.sortedLastIndex(eventQueue, currentTime);
+  const endIndex = eventQueue.length;
   return endIndex - startIndex;
 };
 
+const clearQueue = () => {
+  eventQueue.splice(0, eventQueue.length)
+  while(timers.length) {
+    clearTimeout(timers.shift() as NodeJS.Timeout);
+  }
+};
 
-export { getEventsCountAtTime, sendEvent };
+
+export { clearQueue, getEventsCountAtTime, sendEvent };
+
